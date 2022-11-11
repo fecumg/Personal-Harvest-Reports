@@ -57,36 +57,50 @@ personal post harvest_1 (java core)
 
 *** AutoBoxing trong java là tính năng khi java tự động chuyển đổi 1 giá trị primitive (int, char, byte, short, long, ...) thành 1 object wrapper tương ứng, ví dụ: byte => Byte, int => Integer, char => Character
 	Ví dụ:
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		list.add(123);
-		list.add(456);
-		list.add(789);
-		System.out.println(list); //[123, 456, 789]
+		public class Test {
+			public static void main(String[] args) {
+				ArrayList<Integer> list = new ArrayList<Integer>();
+				list.add(123);
+				list.add(456);
+				list.add(789);
+				System.out.println(list); //[123, 456, 789]
+			}
+		}
+		
 
 		Trong ví dụ trên, list được khai báo ban đầu là 1 collection chứa các objects kiểu Integer. Sau đó ta thêm vào collection này 3 thành phần kiểu int (primitive) là 123, 456, 789. Nhưng vì tính năng autoboxing của java mà 123, 456, 789 sẽ tự được biến đổi thành các objects kiểu Integer có value tương ứng.
 
 
 *** Unboxing là tính năng ngược lại với autoboxing, khi java tự động chuyển đổi 1 object wrapper thành dạng primitive tương ứng, ví dụ: Byte => byte, Integer => int, Character => char
-	Ví dụ: 
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		list.add(123);
-		list.add(456);
-		list.add(789);
-		int n = list.get(2);
-		System.out.println(n); //789
+	Ví dụ:
+		public class Test {
+			public static void main(String[] args) {
+				ArrayList<Integer> list = new ArrayList<Integer>();
+				list.add(123);
+				list.add(456);
+				list.add(789);
+				int n = list.get(2);
+				System.out.println(n); //789
+			}
+		}
+		
 
 		Trong ví dụ trên, list.get(2) đáng nhẽ trả về object kiểu Integer có value 789. Nhưng vì tính năng unboxing của java mà object đó tự động được biến đổi thành giá trị primitive là 789 và gán cho biến n.
 
 
 *** Integer cache chứa các instances của class Integer chứa value trong khoáng -128 dến 127
 	Ví dụ:
-		Integer a = 100;
-		Integer b = 100;
-		System.out.println(a == b); // true
+		public class Test {
+			public static void main(String[] args) {
+				Integer a = 100;
+				Integer b = 100;
+				System.out.println(a == b); // true
 
-		Integer c = 1000;
-		Integer d = 1000;
-		System.out.println(c == d); //false
+				Integer c = 1000;
+				Integer d = 1000;
+				System.out.println(c == d); //false
+			}
+		}
 
 		Trong ví dụ trên, biến a và b cùng tham chiếu đến 1 instance chứa value 100 được lưu trong Integer cache của java nên a == b
 		Nhưng do không có instance nào trong Integer cache chứa value 1000, nên c và d không cùng tham chiếu đến 1 instance
@@ -122,13 +136,13 @@ personal post harvest_1 (java core)
 	* Ví dụ static methods:
 		class Cal{  
 			static int cube(int x){  
-				return x * x * x;  
+				return x * x * x;
 			}  
   
-			public static void main(String args[]){  
-				int volumn=Cal.cube(5);  
+			public static void main(String args[]){
+				int volumn=Cal.cube(5);
 				System.out.println(volumn);
-			}  
+			}
 		}
 
 		Trong ví dụ trên, method cube của class Cal được khai báo static nên khi sử dụng nó trong hàm main, ta không cần phải khởi tạo 1 instance cho class Cal
