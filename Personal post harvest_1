@@ -1,0 +1,161 @@
+*** Tham số kiểu tham trị (primitive type) là tham số mang các kiểu giá trị nguyên thuỷ như: byte, short, int, long, float, double, boolean, char
+	Kiểu tham số này sẽ copy giá trị vào ô nhớ của chính nó
+
+
+*** Tham số kiểu tham chiếu (reference type) là tham số lưu trữ các địa chỉ tham khảo, dùng để truy cập đến ô nhớ chứa giá trị chính xác của nó
+	Ví dụ: array, string, các loại classes
+
+
+*** Classes trong java là mô tả về các đối tượng được tạo ra, chứa attributes và methods
+	Ví dụ:
+		public class Book {
+			private int Id, PublishYear;
+			private String Name, Author;
+
+			public Book() {
+
+			}
+
+			public Book(int id, String name, String author, int publishYear) {
+				this.Id = id;
+				this.Name = name;
+				this.Author = author;
+				this.PublishYear = publishYear;
+			}
+
+			public int getId(){
+				return this.Id;
+			}
+		}
+
+		Class Book trong ví dụ trên chưa 4 attibutes và 2 constructor methods và 1 get method.
+
+
+*** Interfaces trong java là bản thiết kế của các classes, chứa các abstract methods
+	Ví dụ:
+		public interface IShape {
+			String getShape();
+			int getNumberOfEdges();
+		}
+
+		public class Regtangle implements IShape {
+			public String getShape() {
+				return getClass().getName();
+			}
+
+			public int getNumberOfEdges() {
+				return 4;
+			}
+		}
+
+		Class Regtangle trong ví dụ trên kế thừa interface IShape và phải định nghĩa 2 abstract methods được khai báo trong IShape
+
+
+*** AutoBoxing trong java là tính năng khi java tự động chuyển đổi 1 giá trị primitive (int, char, byte, short, long, ...) thành 1 object wrapper tương ứng, ví dụ: byte => Byte, int => Integer, char => Character
+	Ví dụ:
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		list.add(123);
+		list.add(456);
+		list.add(789);
+		System.out.println(list); //[123, 456, 789]
+
+		Trong ví dụ trên, list được khai báo ban đầu là 1 collection chứa các objects kiểu Integer. Sau đó ta thêm vào collection này 3 thành phần kiểu int (primitive) là 123, 456, 789. Nhưng vì tính năng autoboxing của java mà 123, 456, 789 sẽ tự được biến đổi thành các objects kiểu Integer có value tương ứng.
+
+
+*** Unboxing là tính năng ngược lại với autoboxing, khi java tự động chuyển đổi 1 object wrapper thành dạng primitive tương ứng, ví dụ: Byte => byte, Integer => int, Character => char
+	Ví dụ: 
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		list.add(123);
+		list.add(456);
+		list.add(789);
+		int n = list.get(2);
+		System.out.println(n); //789
+
+		Trong ví dụ trên, list.get(2) đáng nhẽ trả về object kiểu Integer có value 789. Nhưng vì tính năng unboxing của java mà object đó tự động được biến đổi thành giá trị primitive là 789 và gán cho biến n.
+
+
+*** Integer cache chứa các instances của class Integer chứa value trong khoáng -128 dến 127
+	Ví dụ:
+		Integer a = 100;
+		Integer b = 100;
+		System.out.println(a == b); // true
+
+		Integer c = 1000;
+		Integer d = 1000;
+		System.out.println(c == d); //false
+
+		Trong ví dụ trên, biến a và b cùng tham chiếu đến 1 instance chứa value 100 được lưu trong Integer cache của java nên a == b
+		Nhưng do không có instance nào trong Integer cache chứa value 1000, nên c và d không cùng tham chiếu đến 1 instance
+
+
+*** 'static' keyword được sử dụng với variables, methods, blocks và nested class. 'static' được sử dụng khi ta muốn cấp riêng 1 lần 1 vùng nhớ và không muốn tạo thêm instance mỗi khi cần dùng tới
+	* Ví dụ static variables:
+		class Counter{  
+			static int count = 0;
+			  
+			Counter(){  
+				count++;
+				System.out.println(count);  
+			}  
+		  
+			public static void main(String args[]){
+				Counter c1=new Counter(); //1
+				Counter c2=new Counter(); //2
+				Counter c3=new Counter(); //3
+			}  
+		}  
+
+		Trong ví dụ trên, nếu không dùng static với biến count thì khi c1, c2, c3 được tạo ra, 1 biến int count = 0 mới sẽ được tạo ra và kết quả in ra sẽ là:
+		1
+		1
+		1
+
+		Nhưng vì ta khai báo count là 1 biến static nên java cấp riêng cố định 1 vùng nhớ cho biến count với giá trị ban đầu là 0. Mỗi khi c1, c2, c3 được tạo ra, mặc dù 1 object kiểu Counter mới được tạo ra, nhưng vẫn sẽ mang theo biến count từ vùng nhớ cố định được khai báo trước đó cùng với giá trị hiện tại của nó. Vậy nên kết quả in ra sẽ là:
+		1
+		2
+		3
+
+	* Ví dụ static methods:
+		class Cal{  
+			static int cube(int x){  
+				return x * x * x;  
+			}  
+  
+			public static void main(String args[]){  
+				int volumn=Cal.cube(5);  
+				System.out.println(volumn);
+			}  
+		}
+
+		Trong ví dụ trên, method cube của class Cal được khai báo static nên khi sử dụng nó trong hàm main, ta không cần phải khởi tạo 1 instance cho class Cal
+
+	* Ví dụ static blocks:
+		class Test {
+		    static
+		    {
+		        i = 10;
+		        System.out.println("Static block called");
+		    }
+
+		    public Test() {
+		    	System.out.println("Constructor called");
+		    }
+		}
+ 
+		class MainTest {
+		    public static void main(String args[])
+		    {
+		        Test t1 = new Test();
+		        Test t1 = new Test();
+		    }
+		}
+
+		//Static block called
+		//Constructor called
+		//Constructor called
+
+		Trong ví dụ trên, static block được gọi tới 1 lần duy nhất: lần đầu tiên class được load vào bộ nhớ. Static block sẽ chạy trước hàm main
+
+
+
+
